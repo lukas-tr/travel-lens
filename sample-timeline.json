@@ -1,147 +1,155 @@
 {
-    "timelineObjects": [
+    "semanticSegments": [
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-01T08:00:00.000Z",
+            "endTime": "2024-11-01T08:25:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+                "end": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-01T08:00:00.000Z",
-                    "endTimestamp": "2024-11-01T08:25:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_VEHICLE"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_VEHICLE",
+                    "probability": 0.95
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+            "startTime": "2024-11-01T17:30:00.000Z",
+            "endTime": "2024-11-01T17:55:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "endLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+                "end": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-01T17:30:00.000Z",
-                    "endTimestamp": "2024-11-01T17:55:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_VEHICLE"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_VEHICLE",
+                    "probability": 0.93
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-02T12:00:00.000Z",
+            "endTime": "2024-11-02T12:15:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485712340,
-                    "longitudeE7": 21771230
+                "end": {
+                    "latLng": "48.5712340,2.1771230"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-02T12:00:00.000Z",
-                    "endTimestamp": "2024-11-02T12:15:00.000Z"
-                },
-                "distance": 1200,
-                "activityType": "WALKING"
+                "distanceMeters": 1200,
+                "topCandidate": {
+                    "type": "WALKING",
+                    "probability": 0.98
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-03T08:00:00.000Z",
+            "endTime": "2024-11-03T08:25:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+                "end": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-03T08:00:00.000Z",
-                    "endTimestamp": "2024-11-03T08:25:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_VEHICLE"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_VEHICLE",
+                    "probability": 0.91
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-04T09:00:00.000Z",
+            "endTime": "2024-11-04T09:20:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485734560,
-                    "longitudeE7": 21779430
+                "end": {
+                    "latLng": "48.5734560,2.1779430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-04T09:00:00.000Z",
-                    "endTimestamp": "2024-11-04T09:20:00.000Z"
-                },
-                "distance": 3500,
-                "activityType": "BICYCLING"
+                "distanceMeters": 3500,
+                "topCandidate": {
+                    "type": "CYCLING",
+                    "probability": 0.89
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-05T08:00:00.000Z",
+            "endTime": "2024-11-05T08:30:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+                "end": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-05T08:00:00.000Z",
-                    "endTimestamp": "2024-11-05T08:30:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_BUS"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_BUS",
+                    "probability": 0.87
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-06T08:00:00.000Z",
+            "endTime": "2024-11-06T08:25:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+                "end": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-06T08:00:00.000Z",
-                    "endTimestamp": "2024-11-06T08:25:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_VEHICLE"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_VEHICLE",
+                    "probability": 0.94
+                }
             }
         },
         {
-            "activitySegment": {
-                "startLocation": {
-                    "latitudeE7": 485692070,
-                    "longitudeE7": 21768960
+            "startTime": "2024-11-07T08:00:00.000Z",
+            "endTime": "2024-11-07T08:25:00.000Z",
+            "startTimeTimezoneUtcOffsetMinutes": 60,
+            "endTimeTimezoneUtcOffsetMinutes": 60,
+            "activity": {
+                "start": {
+                    "latLng": "48.5692070,2.1768960"
                 },
-                "endLocation": {
-                    "latitudeE7": 485234560,
-                    "longitudeE7": 21889430
+                "end": {
+                    "latLng": "48.5234560,2.1889430"
                 },
-                "duration": {
-                    "startTimestamp": "2024-11-07T08:00:00.000Z",
-                    "endTimestamp": "2024-11-07T08:25:00.000Z"
-                },
-                "distance": 8500,
-                "activityType": "IN_VEHICLE"
+                "distanceMeters": 8500,
+                "topCandidate": {
+                    "type": "IN_VEHICLE",
+                    "probability": 0.96
+                }
             }
         }
     ]

@@ -55,8 +55,16 @@ public class TimelineService {
 
         if (segments.isArray()) {
             for (JsonNode segment : segments) {
+                // Check if this is the new schema format (activity at segment level)
                 if (segment.has("activity")) {
-                    Trip trip = parseActivitySegment(segment.get("activity"));
+                    Trip trip = parseNewSchemaSegment(segment);
+                    if (trip != null) {
+                        trips.add(trip);
+                    }
+                }
+                // Old format compatibility (activity segment nested)
+                else if (segment.has("activitySegment")) {
+                    Trip trip = parseActivitySegment(segment.get("activitySegment"));
                     if (trip != null) {
                         trips.add(trip);
                     }
@@ -66,6 +74,82 @@ public class TimelineService {
 
         log.info("Parsed {} trips from new format", trips.size());
         return trips;
+    }
+
+    /**
+     * Parse new schema format with activity at segment level
+     */
+    private Trip parseNewSchemaSegment(JsonNode segment) {
+        try {
+            Trip trip = new Trip();
+            trip.setId(UUID.randomUUID().toString());
+
+            JsonNode activity = segment.get("activity");
+
+            // Parse start location from latLng string
+            if (activity.has("start") && activity.get("start").has("latLng")) {
+                String latLng = activity.get("start").get("latLng").asText();
+                trip.setStartLocation(parseLatLngString(latLng));
+            }
+
+            // Parse end location from latLng string
+            if (activity.has("end") && activity.get("end").has("latLng")) {
+                String latLng = activity.get("end").get("latLng").asText();
+                trip.setEndLocation(parseLatLngString(latLng));
+            }
+
+            // Parse timestamps from segment level
+            if (segment.has("startTime")) {
+                trip.setStartTime(parseTimestamp(segment.get("startTime").asText()));
+            }
+            if (segment.has("endTime")) {
+                trip.setEndTime(parseTimestamp(segment.get("endTime").asText()));
+            }
+
+            // Parse distance
+            if (activity.has("distanceMeters")) {
+                double distanceMeters = activity.get("distanceMeters").asDouble();
+                trip.setDistanceKm(distanceMeters / 1000.0);
+            }
+
+            // Parse transport mode from topCandidate
+            if (activity.has("topCandidate")) {
+                JsonNode topCandidate = activity.get("topCandidate");
+                if (topCandidate.has("type")) {
+                    String type = topCandidate.get("type").asText();
+                    trip.setTransportMode(mapActivityTypeToTransportMode(type));
+                }
+            } else {
+                trip.setTransportMode(TransportMode.UNKNOWN);
+            }
+
+            // Calculate duration
+            if (trip.getStartTime() != null && trip.getEndTime() != null) {
+                trip.setDurationMinutes((trip.getEndTime() - trip.getStartTime()) / (1000 * 60));
+            }
+
+            return trip;
+        } catch (Exception e) {
+            log.error("Error parsing new schema segment", e);
+            return null;
+        }
+    }
+
+    /**
+     * Parse latLng string format "lat,lng" into Location object
+     */
+    private Location parseLatLngString(String latLng) {
+        Location location = new Location();
+        try {
+            String[] parts = latLng.split(",");
+            if (parts.length == 2) {
+                location.setLatitude(Double.parseDouble(parts[0].trim()));
+                location.setLongitude(Double.parseDouble(parts[1].trim()));
+            }
+        } catch (Exception e) {
+            log.error("Error parsing latLng string: {}", latLng, e);
+        }
+        return location;
     }
 
     private List<Trip> parseLegacyFormat(JsonNode root) {
@@ -269,25 +353,24 @@ public class TimelineService {
         if (speedKmh < 5)
             return TransportMode.WALKING;
         if (speedKmh < 20)
-            return TransportMode.BICYCLE;
-        if (speedKmh < 40)
-            return TransportMode.BUS;
-        if (speedKmh < 100)
-            return TransportMode.CAR;
-        return TransportMode.AIRPLANE;
+            return TransportMode.ON_BICYCLE;
+        if (speedKmh < 60)
+            return TransportMode.IN_PASSENGER_VEHICLE;
+        if (speedKmh < 120)
+            return TransportMode.IN_ROAD_VEHICLE;
+        return TransportMode.IN_RAIL_VEHICLE;
     }
 
     private TransportMode mapActivityTypeToTransportMode(String activityType) {
         return switch (activityType.toUpperCase()) {
-            case "IN_VEHICLE", "DRIVING" -> TransportMode.CAR;
-            case "IN_BUS" -> TransportMode.BUS;
-            case "IN_TRAIN" -> TransportMode.TRAIN;
-            case "IN_TRAM" -> TransportMode.TRAM;
-            case "IN_SUBWAY" -> TransportMode.SUBWAY;
-            case "CYCLING", "BICYCLING" -> TransportMode.BICYCLE;
-            case "WALKING", "ON_FOOT" -> TransportMode.WALKING;
-            case "MOTORCYCLING" -> TransportMode.MOTORCYCLE;
-            case "FLYING" -> TransportMode.AIRPLANE;
+            case "WALKING" -> TransportMode.WALKING;
+            case "RUNNING" -> TransportMode.RUNNING;
+            case "ON_FOOT" -> TransportMode.ON_FOOT;
+            case "ON_BICYCLE", "CYCLING", "BICYCLING" -> TransportMode.ON_BICYCLE;
+            case "IN_VEHICLE", "DRIVING" -> TransportMode.IN_VEHICLE;
+            case "IN_ROAD_VEHICLE" -> TransportMode.IN_ROAD_VEHICLE;
+            case "IN_PASSENGER_VEHICLE", "IN_BUS", "IN_TRAM" -> TransportMode.IN_PASSENGER_VEHICLE;
+            case "IN_RAIL_VEHICLE", "IN_TRAIN", "IN_SUBWAY" -> TransportMode.IN_RAIL_VEHICLE;
             default -> TransportMode.UNKNOWN;
         };
     }

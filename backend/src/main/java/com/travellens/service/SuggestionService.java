@@ -24,9 +24,9 @@ public class SuggestionService {
         List<Suggestion> suggestions = new ArrayList<>();
 
         for (Trip trip : trips) {
-            // Only suggest alternatives for car trips and motorcycles
-            if (trip.getTransportMode() == TransportMode.CAR ||
-                    trip.getTransportMode() == TransportMode.MOTORCYCLE) {
+            // Only suggest alternatives for vehicle trips
+            if (trip.getTransportMode() == TransportMode.IN_VEHICLE ||
+                    trip.getTransportMode() == TransportMode.IN_ROAD_VEHICLE) {
 
                 suggestions.addAll(generateAlternativesForTrip(trip));
             }
@@ -55,21 +55,19 @@ public class SuggestionService {
             if (distance < 2) {
                 alternatives.add(createSuggestion(trip, TransportMode.WALKING));
             }
-            alternatives.add(createSuggestion(trip, TransportMode.BICYCLE));
+            alternatives.add(createSuggestion(trip, TransportMode.ON_BICYCLE));
         }
 
         // Medium trips (5-20km): Suggest public transport or bicycle
         if (distance >= 5 && distance < 20) {
-            alternatives.add(createSuggestion(trip, TransportMode.BICYCLE));
-            alternatives.add(createSuggestion(trip, TransportMode.BUS));
-            alternatives.add(createSuggestion(trip, TransportMode.TRAM));
+            alternatives.add(createSuggestion(trip, TransportMode.ON_BICYCLE));
+            alternatives.add(createSuggestion(trip, TransportMode.IN_PASSENGER_VEHICLE));
         }
 
         // Long trips (20km+): Suggest train or public transport
         if (distance >= 20) {
-            alternatives.add(createSuggestion(trip, TransportMode.TRAIN));
-            alternatives.add(createSuggestion(trip, TransportMode.SUBWAY));
-            alternatives.add(createSuggestion(trip, TransportMode.BUS));
+            alternatives.add(createSuggestion(trip, TransportMode.IN_RAIL_VEHICLE));
+            alternatives.add(createSuggestion(trip, TransportMode.IN_PASSENGER_VEHICLE));
         }
 
         return alternatives;
@@ -148,8 +146,10 @@ public class SuggestionService {
         }
 
         // Add health benefits for active transport
-        if (suggestion.getSuggestedMode() == TransportMode.BICYCLE ||
-                suggestion.getSuggestedMode() == TransportMode.WALKING) {
+        if (suggestion.getSuggestedMode() == TransportMode.ON_BICYCLE ||
+                suggestion.getSuggestedMode() == TransportMode.WALKING ||
+                suggestion.getSuggestedMode() == TransportMode.RUNNING ||
+                suggestion.getSuggestedMode() == TransportMode.ON_FOOT) {
             desc.append(" Plus, you'll get great exercise!");
         }
 
@@ -169,16 +169,14 @@ public class SuggestionService {
 
     private String formatTransportMode(TransportMode mode) {
         return switch (mode) {
-            case CAR -> "car";
-            case BUS -> "bus";
-            case TRAIN -> "train";
-            case TRAM -> "tram";
-            case SUBWAY -> "subway";
-            case BICYCLE -> "bicycle";
             case WALKING -> "walking";
-            case MOTORCYCLE -> "motorcycle";
-            case AIRPLANE -> "airplane";
-            case FERRY -> "ferry";
+            case RUNNING -> "running";
+            case ON_FOOT -> "on foot";
+            case ON_BICYCLE -> "bicycle";
+            case IN_VEHICLE -> "vehicle";
+            case IN_ROAD_VEHICLE -> "car";
+            case IN_PASSENGER_VEHICLE -> "public transport";
+            case IN_RAIL_VEHICLE -> "train";
             default -> "alternative transport";
         };
     }

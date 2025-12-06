@@ -11,7 +11,7 @@ TravelLens is a comprehensive travel behavior analysis platform that processes G
 ## ✨ Features
 
 - 📊 **Comprehensive Analysis**: Analyze your travel patterns with detailed metrics
-- 🌱 **Green Score**: Get a personalized sustainability score (0-100)
+- 🌱 **CO2 Score**: Get a personalized sustainability score (0-100) based on emissions
 - 💡 **Smart Suggestions**: Receive AI-powered recommendations for eco-friendly alternatives
 - 💰 **Cost Savings**: See how much money you could save
 - 🌿 **CO2 Tracking**: Monitor your carbon footprint
@@ -105,7 +105,7 @@ The frontend will be available at `http://localhost:4200`
 
 ### 3. View Your Results
 
-- **Green Score**: See your overall sustainability rating
+- **CO2 Score**: See your overall sustainability rating based on emissions
 - **Statistics**: View total trips, distance, CO2, and costs
 - **Breakdown**: Analyze trips by transport mode
 - **Suggestions**: Get personalized recommendations
@@ -150,10 +150,10 @@ The frontend will be available at `http://localhost:4200`
 - Bus/Tram/Subway: 0.10-0.12
 - Bicycle: 0.02 (maintenance only)
 
-**Green Score Components:**
-- CO2 Score (40%): Compared to car-only scenario
-- Cost Score (30%): Compared to car-only scenario
-- Sustainability Score (30%): Percentage of eco-friendly trips
+**CO2 Score:**
+- Based 100% on CO2 emissions compared to car-only scenario
+- Score = 100 - (actualCO2 / carOnlyCO2 × 100)
+- Cost and sustainability scores are displayed for reference only
 
 ## 🎨 Design System
 

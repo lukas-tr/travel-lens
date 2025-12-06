@@ -11,8 +11,8 @@
             </button>
         </div>
 
-        <!-- Green Score Section -->
-        <div class="green-score-section glass-card fade-in">
+        <!-- CO2 Score Section -->
+        <div class="co2-score-section glass-card fade-in">
             <div class="score-content">
                 <div class="circular-progress">
                     <svg width="200" height="200" viewBox="0 0 200 200">
@@ -28,8 +28,8 @@
                         </circle>
                     </svg>
                     <div class="circular-progress-text">
-                        <div class="circular-progress-score">{{ analysis.greenScore.totalScore }}</div>
-                        <div class="circular-progress-label">Green Score</div>
+                        <div class="circular-progress-score">{{ analysis.greenScore.co2Score }}</div>
+                        <div class="circular-progress-label">CO2 Score</div>
                     </div>
                 </div>
 
@@ -40,31 +40,6 @@
                         </span>
                     </div>
                     <p class="score-message">{{ analysis.greenScore.message }}</p>
-
-                    <div class="score-breakdown">
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">CO2 Score</span>
-                            <div class="breakdown-bar">
-                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.co2Score"></div>
-                            </div>
-                            <span class="breakdown-value">{{ analysis.greenScore.co2Score }}</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Cost Score</span>
-                            <div class="breakdown-bar">
-                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.costScore"></div>
-                            </div>
-                            <span class="breakdown-value">{{ analysis.greenScore.costScore }}</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Sustainability</span>
-                            <div class="breakdown-bar">
-                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.sustainabilityScore">
-                                </div>
-                            </div>
-                            <span class="breakdown-value">{{ analysis.greenScore.sustainabilityScore }}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

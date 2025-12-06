@@ -15,40 +15,39 @@ public class AnalysisService {
 
     // CO2 emissions in kg per km for different transport modes
     private static final Map<TransportMode, Double> CO2_PER_KM = Map.of(
-            TransportMode.CAR, 0.192, // Average car
-            TransportMode.MOTORCYCLE, 0.113,
-            TransportMode.BUS, 0.089,
-            TransportMode.TRAIN, 0.041,
-            TransportMode.TRAM, 0.035,
-            TransportMode.SUBWAY, 0.028,
-            TransportMode.BICYCLE, 0.0,
             TransportMode.WALKING, 0.0,
-            TransportMode.AIRPLANE, 0.255 // Short-haul flight
+            TransportMode.RUNNING, 0.0,
+            TransportMode.ON_FOOT, 0.0,
+            TransportMode.ON_BICYCLE, 0.0,
+            TransportMode.IN_VEHICLE, 0.192, // Average private vehicle
+            TransportMode.IN_ROAD_VEHICLE, 0.192, // Cars, motorcycles
+            TransportMode.IN_PASSENGER_VEHICLE, 0.089, // Buses, trams
+            TransportMode.IN_RAIL_VEHICLE, 0.041 // Trains, subways
     );
 
     // Cost in EUR per km for different transport modes
     private static final Map<TransportMode, Double> COST_PER_KM = Map.of(
-            TransportMode.CAR, 0.35, // Fuel + maintenance
-            TransportMode.MOTORCYCLE, 0.15,
-            TransportMode.BUS, 0.12, // Public transport ticket
-            TransportMode.TRAIN, 0.15,
-            TransportMode.TRAM, 0.10,
-            TransportMode.SUBWAY, 0.10,
-            TransportMode.BICYCLE, 0.02, // Maintenance only
             TransportMode.WALKING, 0.0,
-            TransportMode.AIRPLANE, 0.50);
+            TransportMode.RUNNING, 0.0,
+            TransportMode.ON_FOOT, 0.0,
+            TransportMode.ON_BICYCLE, 0.02, // Maintenance only
+            TransportMode.IN_VEHICLE, 0.35, // Fuel + maintenance
+            TransportMode.IN_ROAD_VEHICLE, 0.35,
+            TransportMode.IN_PASSENGER_VEHICLE, 0.12, // Public transport ticket
+            TransportMode.IN_RAIL_VEHICLE, 0.15
+    );
 
     // Average speed in km/h for different transport modes
     private static final Map<TransportMode, Double> AVERAGE_SPEED_KMH = Map.of(
-            TransportMode.CAR, 50.0,
-            TransportMode.MOTORCYCLE, 45.0,
-            TransportMode.BUS, 25.0,
-            TransportMode.TRAIN, 80.0,
-            TransportMode.TRAM, 20.0,
-            TransportMode.SUBWAY, 35.0,
-            TransportMode.BICYCLE, 15.0,
             TransportMode.WALKING, 5.0,
-            TransportMode.AIRPLANE, 500.0);
+            TransportMode.RUNNING, 10.0,
+            TransportMode.ON_FOOT, 5.0,
+            TransportMode.ON_BICYCLE, 15.0,
+            TransportMode.IN_VEHICLE, 50.0,
+            TransportMode.IN_ROAD_VEHICLE, 50.0,
+            TransportMode.IN_PASSENGER_VEHICLE, 25.0,
+            TransportMode.IN_RAIL_VEHICLE, 60.0
+    );
 
     /**
      * Analyze trips and calculate comprehensive travel statistics
@@ -109,31 +108,32 @@ public class AnalysisService {
         GreenScore score = new GreenScore();
 
         // CO2 Score: Compare to average car-only scenario
-        double carOnlyCo2 = analysis.getTotalDistanceKm() * CO2_PER_KM.get(TransportMode.CAR);
+        double carOnlyCo2 = analysis.getTotalDistanceKm() * CO2_PER_KM.get(TransportMode.IN_ROAD_VEHICLE);
         double actualCo2 = analysis.getTotalCo2EmissionsKg();
         int co2Score = (int) Math.max(0, Math.min(100, 100 - (actualCo2 / carOnlyCo2 * 100)));
         score.setCo2Score(co2Score);
 
         // Cost Score: Compare to average car-only scenario
-        double carOnlyCost = analysis.getTotalDistanceKm() * COST_PER_KM.get(TransportMode.CAR);
+        double carOnlyCost = analysis.getTotalDistanceKm() * COST_PER_KM.get(TransportMode.IN_ROAD_VEHICLE);
         double actualCost = analysis.getTotalCostEur();
         int costScore = (int) Math.max(0, Math.min(100, 100 - (actualCost / carOnlyCost * 100)));
         score.setCostScore(costScore);
 
         // Sustainability Score: Percentage of eco-friendly trips
         long ecoTrips = trips.stream()
-                .filter(t -> t.getTransportMode() == TransportMode.BICYCLE ||
+                .filter(t -> t.getTransportMode() == TransportMode.ON_BICYCLE ||
                         t.getTransportMode() == TransportMode.WALKING ||
-                        t.getTransportMode() == TransportMode.TRAIN ||
-                        t.getTransportMode() == TransportMode.TRAM ||
-                        t.getTransportMode() == TransportMode.SUBWAY)
+                        t.getTransportMode() == TransportMode.RUNNING ||
+                        t.getTransportMode() == TransportMode.ON_FOOT ||
+                        t.getTransportMode() == TransportMode.IN_RAIL_VEHICLE)
                 .count();
         int sustainabilityScore = (int) ((ecoTrips * 100.0) / trips.size());
         score.setSustainabilityScore(sustainabilityScore);
 
-        // Total Score: Weighted average
-        int totalScore = (int) ((co2Score * 0.4) + (costScore * 0.3) + (sustainabilityScore * 0.3));
-        score.setTotalScore(totalScore);
+        // Total Score: Equal to CO2 score only
+    // Cost and sustainability scores are still calculated and displayed for reference
+    int totalScore = co2Score;
+    score.setTotalScore(totalScore);
 
         // Rating
         String rating = getRating(totalScore);

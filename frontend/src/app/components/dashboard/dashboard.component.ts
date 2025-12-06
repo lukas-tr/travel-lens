@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
     animateGreenScore(): void {
         if (!this.analysis) return;
 
-        const score = this.analysis.greenScore.totalScore;
+        const score = this.analysis.greenScore.co2Score;
         const offset = this.circleCircumference - (score / 100) * this.circleCircumference;
 
         setTimeout(() => {
@@ -59,16 +59,15 @@ export class DashboardComponent implements OnInit {
 
     getTransportModeIcon(mode: string): string {
         const icons: { [key: string]: string } = {
-            'CAR': '🚗',
-            'BUS': '🚌',
-            'TRAIN': '🚆',
-            'TRAM': '🚊',
-            'SUBWAY': '🚇',
-            'BICYCLE': '🚴',
             'WALKING': '🚶',
-            'MOTORCYCLE': '🏍️',
-            'AIRPLANE': '✈️',
-            'FERRY': '⛴️'
+            'RUNNING': '🏃',
+            'ON_FOOT': '🚶',
+            'ON_BICYCLE': '🚴',
+            'IN_VEHICLE': '🚗',
+            'IN_ROAD_VEHICLE': '🚗',
+            'IN_PASSENGER_VEHICLE': '🚌',
+            'IN_RAIL_VEHICLE': '🚆',
+            'UNKNOWN': '❓'
         };
         return icons[mode] || '🚗';
     }

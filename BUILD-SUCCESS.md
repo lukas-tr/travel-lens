@@ -84,7 +84,7 @@ This contains 8 trips with:
 
 ### 4. Expected Results
 
-**Green Score:** ~40-50 (depends on exact calculations)
+**CO2 Score:** ~0-20 (based purely on CO2 emissions vs car baseline)
 
 **Suggestions:**
 - Switch short car trips to bicycle
@@ -143,7 +143,7 @@ This contains 8 trips with:
 - Progress indicator
 
 ### Dashboard
-- Circular green score with gradient
+- Circular CO2 score with gradient
 - animated breakdown (CO2, Cost, Sustainability)
 - Statistics grid with icons
 - Potential savings highlight
