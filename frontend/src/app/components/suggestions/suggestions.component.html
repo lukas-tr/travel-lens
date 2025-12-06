@@ -1,0 +1,102 @@
+<div class="suggestions-container" *ngIf="!isLoading && analysis">
+    <div class="container">
+        <!-- Header -->
+        <div class="suggestions-header fade-in">
+            <div>
+                <h1>💡 All Recommendations</h1>
+                <p>Complete list of optimization suggestions for your trips</p>
+            </div>
+            <button class="btn btn-secondary" (click)="goBack()">
+                ← Back to Dashboard
+            </button>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="summary-section glass-card fade-in">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-icon">🌱</div>
+                    <div class="summary-content">
+                        <div class="summary-value">{{ formatCO2(analysis.potentialCo2SavingsKg) }} kg</div>
+                        <div class="summary-label">Total CO2 Savings</div>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon">💵</div>
+                    <div class="summary-content">
+                        <div class="summary-value">€{{ formatCost(analysis.potentialCostSavingsEur) }}</div>
+                        <div class="summary-label">Total Cost Savings</div>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon">🎯</div>
+                    <div class="summary-content">
+                        <div class="summary-value">{{ analysis.suggestions.length }}</div>
+                        <div class="summary-label">Optimization Opportunities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Suggestions List -->
+        <div class="all-suggestions-section mt-4 fade-in">
+            <h2>All Suggestions</h2>
+            <div class="suggestions-list">
+                <div class="suggestion-card glass-card" *ngFor="let suggestion of analysis.suggestions; let i = index">
+                    <div class="suggestion-number">{{ i + 1 }}</div>
+                    <div class="suggestion-content">
+                        <div class="suggestion-header">
+                            <span class="badge" [ngClass]="getImpactBadgeClass(suggestion.impactLevel)">
+                                {{ suggestion.impactLevel }} Impact
+                            </span>
+                        </div>
+                        <h3>{{ suggestion.title }}</h3>
+                        <p>{{ suggestion.description }}</p>
+                        <div class="suggestion-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Route:</span>
+                                <span class="detail-value">{{ suggestion.route }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Current Mode:</span>
+                                <span class="detail-value">{{ suggestion.currentMode }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Suggested Mode:</span>
+                                <span class="detail-value suggested-mode">{{ suggestion.suggestedMode }}</span>
+                            </div>
+                        </div>
+                        <div class="suggestion-metrics">
+                            <div class="metric">
+                                <span class="metric-icon">🌱</span>
+                                <span class="metric-value">-{{ formatCO2(suggestion.co2SavingsKg) }} kg CO2</span>
+                            </div>
+                            <div class="metric" *ngIf="suggestion.costSavingsEur > 0">
+                                <span class="metric-icon">💰</span>
+                                <span class="metric-value">-€{{ formatCost(suggestion.costSavingsEur) }}</span>
+                            </div>
+                            <div class="metric" *ngIf="suggestion.timeDifferenceMinutes !== 0">
+                                <span class="metric-icon">⏱️</span>
+                                <span class="metric-value" [class.time-increase]="suggestion.timeDifferenceMinutes > 0">
+                                    {{ suggestion.timeDifferenceMinutes > 0 ? '+' : '' }}{{
+                                    formatTime(Math.abs(suggestion.timeDifferenceMinutes)) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading suggestions...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="error && !isLoading">
+    <p>{{ error }}</p>
+</div>

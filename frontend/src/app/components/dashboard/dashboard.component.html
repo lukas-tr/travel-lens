@@ -164,6 +164,14 @@
                     </div>
                 </div>
             </div>
+
+            <!-- View All Link -->
+            <div class="view-all-link" *ngIf="hasMoreSuggestions()">
+                <a (click)="viewAllSuggestions()" class="view-all-button">
+                    Further €{{ formatCost(getRemainingCostSavings()) }} can be saved on {{ getRemainingCount() }} {{
+                    getRemainingCount() === 1 ? 'trip' : 'trips' }} →
+                </a>
+            </div>
         </div>
     </div>
 </div>

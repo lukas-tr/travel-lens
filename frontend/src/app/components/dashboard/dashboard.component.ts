@@ -115,6 +115,25 @@ export class DashboardComponent implements OnInit {
         return this.analysis?.suggestions.slice(0, 5) || [];
     }
 
+    getRemainingCount(): number {
+        return Math.max(0, (this.analysis?.suggestions.length || 0) - 5);
+    }
+
+    getRemainingCostSavings(): number {
+        if (!this.analysis || this.analysis.suggestions.length <= 5) return 0;
+
+        const remainingSuggestions = this.analysis.suggestions.slice(5);
+        return remainingSuggestions.reduce((sum, s) => sum + s.costSavingsEur, 0);
+    }
+
+    hasMoreSuggestions(): boolean {
+        return (this.analysis?.suggestions.length || 0) > 5;
+    }
+
+    viewAllSuggestions(): void {
+        this.router.navigate(['/suggestions']);
+    }
+
     uploadNewFile(): void {
         this.router.navigate(['/']);
     }

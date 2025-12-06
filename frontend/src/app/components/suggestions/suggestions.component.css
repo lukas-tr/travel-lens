@@ -1,0 +1,215 @@
+.suggestions-container {
+    min-height: 100vh;
+    padding: var(--spacing-2xl) 0;
+}
+
+.suggestions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.suggestions-header h1 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.suggestions-header p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Summary Section */
+.summary-section {
+    padding: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.summary-icon {
+    font-size: 3rem;
+}
+
+.summary-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary-green-light);
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+}
+
+.summary-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* All Suggestions Section */
+.all-suggestions-section h2 {
+    margin-bottom: var(--spacing-xl);
+}
+
+.suggestions-list {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.suggestion-card {
+    padding: var(--spacing-xl);
+    transition: all var(--transition-base);
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.suggestion-card:hover {
+    transform: translateY(-4px);
+}
+
+.suggestion-number {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-teal));
+    color: white;
+    font-weight: 800;
+    font-size: 1.25rem;
+    border-radius: var(--radius-lg);
+}
+
+.suggestion-content {
+    flex: 1;
+}
+
+.suggestion-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.suggestion-card h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.125rem;
+}
+
+.suggestion-card p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.suggestion-details {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.detail-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.suggested-mode {
+    color: var(--primary-green-light);
+}
+
+.suggestion-metrics {
+    display: flex;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.metric-icon {
+    font-size: 1.25rem;
+}
+
+.metric-value {
+    font-weight: 600;
+    color: var(--primary-green-light);
+}
+
+.time-increase {
+    color: var(--warning);
+}
+
+/* Loading & Error States */
+.loading-container,
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--bg-tertiary);
+    border-top: 4px solid var(--primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .suggestions-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-lg);
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .suggestion-card {
+        flex-direction: column;
+    }
+
+    .suggestion-number {
+        align-self: flex-start;
+    }
+
+    .suggestion-metrics {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+}
