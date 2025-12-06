@@ -1,15 +1,17 @@
 package com.travellens.service;
 
 import com.travellens.model.*;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class AnalysisService {
+
+    private static final Logger log = LoggerFactory.getLogger(AnalysisService.class);
 
     // CO2 emissions in kg per km for different transport modes
     private static final Map<TransportMode, Double> CO2_PER_KM = Map.of(

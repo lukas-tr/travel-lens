@@ -6,8 +6,8 @@ import com.travellens.model.Trip;
 import com.travellens.service.AnalysisService;
 import com.travellens.service.SuggestionService;
 import com.travellens.service.TimelineService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +19,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/timeline")
-@RequiredArgsConstructor
-@Slf4j
 public class TimelineController {
 
+    private static final Logger log = LoggerFactory.getLogger(TimelineController.class);
     private final TimelineService timelineService;
     private final AnalysisService analysisService;
     private final SuggestionService suggestionService;
+
+    public TimelineController(TimelineService timelineService, AnalysisService analysisService,
+            SuggestionService suggestionService) {
+        this.timelineService = timelineService;
+        this.analysisService = analysisService;
+        this.suggestionService = suggestionService;
+    }
 
     // Store parsed data in memory (in production, use a database)
     private List<Trip> currentTrips;
