@@ -137,12 +137,12 @@ public class SuggestionService {
         desc.append(formatTransportMode(suggestion.getSuggestedMode()));
         desc.append(".");
 
-        if (suggestion.getTimeDifferenceMinutes() < 0) {
-            desc.append(String.format(" This will add approximately %d minutes to your journey.",
-                    Math.abs(suggestion.getTimeDifferenceMinutes())));
-        } else if (suggestion.getTimeDifferenceMinutes() > 0) {
+        if (suggestion.getTimeDifferenceMinutes() > 0) {
             desc.append(String.format(" You might even save %d minutes!",
                     suggestion.getTimeDifferenceMinutes()));
+        } else if (suggestion.getTimeDifferenceMinutes() < 0) {
+            desc.append(String.format(" This will add approximately %d minutes to your journey.",
+                    Math.abs(suggestion.getTimeDifferenceMinutes())));
         }
 
         // Add health benefits for active transport

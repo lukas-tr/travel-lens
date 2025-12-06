@@ -77,8 +77,8 @@
                             </div>
                             <div class="metric" *ngIf="suggestion.timeDifferenceMinutes !== 0">
                                 <span class="metric-icon">⏱️</span>
-                                <span class="metric-value" [class.time-increase]="suggestion.timeDifferenceMinutes > 0">
-                                    {{ suggestion.timeDifferenceMinutes > 0 ? '+' : '' }}{{
+                                <span class="metric-value" [class.time-increase]="suggestion.timeDifferenceMinutes < 0">
+                                    {{ suggestion.timeDifferenceMinutes > 0 ? '-' : '+' }}{{
                                     formatTime(Math.abs(suggestion.timeDifferenceMinutes)) }}
                                 </span>
                             </div>
