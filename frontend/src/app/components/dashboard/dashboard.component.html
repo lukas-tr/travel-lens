@@ -1,0 +1,180 @@
+<div class="dashboard-container" *ngIf="!isLoading && analysis">
+    <div class="container">
+        <!-- Header -->
+        <div class="dashboard-header fade-in">
+            <div>
+                <h1>Your Travel Analysis</h1>
+                <p>Insights and recommendations for greener travel</p>
+            </div>
+            <button class="btn btn-secondary" (click)="uploadNewFile()">
+                Upload New File
+            </button>
+        </div>
+
+        <!-- Green Score Section -->
+        <div class="green-score-section glass-card fade-in">
+            <div class="score-content">
+                <div class="circular-progress">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <defs>
+                            <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:hsl(142, 71%, 55%);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:hsl(174, 62%, 47%);stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle class="circular-progress-bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="circular-progress-fill" cx="100" cy="100" r="90"
+                            [attr.stroke-dasharray]="circleCircumference" [attr.stroke-dashoffset]="circleDashoffset">
+                        </circle>
+                    </svg>
+                    <div class="circular-progress-text">
+                        <div class="circular-progress-score">{{ analysis.greenScore.totalScore }}</div>
+                        <div class="circular-progress-label">Green Score</div>
+                    </div>
+                </div>
+
+                <div class="score-details">
+                    <div class="score-rating">
+                        <span class="rating-badge" [style.background]="getRatingColor(analysis.greenScore.rating)">
+                            {{ analysis.greenScore.rating }}
+                        </span>
+                    </div>
+                    <p class="score-message">{{ analysis.greenScore.message }}</p>
+
+                    <div class="score-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">CO2 Score</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.co2Score"></div>
+                            </div>
+                            <span class="breakdown-value">{{ analysis.greenScore.co2Score }}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Cost Score</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.costScore"></div>
+                            </div>
+                            <span class="breakdown-value">{{ analysis.greenScore.costScore }}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Sustainability</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" [style.width.%]="analysis.greenScore.sustainabilityScore">
+                                </div>
+                            </div>
+                            <span class="breakdown-value">{{ analysis.greenScore.sustainabilityScore }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid grid grid-2 mt-4">
+            <div class="stat-card glass-card slide-in">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ formatDistance(analysis.totalDistanceKm) }} km</div>
+                    <div class="stat-label">Total Distance</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card slide-in">
+                <div class="stat-icon">🚗</div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ analysis.totalTrips }}</div>
+                    <div class="stat-label">Total Trips</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card slide-in">
+                <div class="stat-icon">💨</div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ formatCO2(analysis.totalCo2EmissionsKg) }} kg</div>
+                    <div class="stat-label">CO2 Emissions</div>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card slide-in">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-value">€{{ formatCost(analysis.totalCostEur) }}</div>
+                    <div class="stat-label">Total Cost</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Potential Savings -->
+        <div class="savings-section glass-card mt-4 fade-in" *ngIf="analysis.potentialCo2SavingsKg > 0">
+            <h2>💡 Potential Savings</h2>
+            <p class="savings-intro">By following our suggestions, you could save:</p>
+            <div class="savings-grid">
+                <div class="saving-item">
+                    <div class="saving-icon">🌱</div>
+                    <div class="saving-value">{{ formatCO2(analysis.potentialCo2SavingsKg) }} kg</div>
+                    <div class="saving-label">CO2 Emissions</div>
+                </div>
+                <div class="saving-item">
+                    <div class="saving-icon">💵</div>
+                    <div class="saving-value">€{{ formatCost(analysis.potentialCostSavingsEur) }}</div>
+                    <div class="saving-label">Money</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transport Mode Breakdown -->
+        <div class="transport-breakdown glass-card mt-4 fade-in">
+            <h2>🚦 Transport Mode Breakdown</h2>
+            <div class="transport-list">
+                <div class="transport-item" *ngFor="let mode of analysis.tripsByMode | keyvalue">
+                    <div class="transport-info">
+                        <span class="transport-icon">{{ getTransportModeIcon(mode.key) }}</span>
+                        <span class="transport-name">{{ mode.key }}</span>
+                    </div>
+                    <div class="transport-stats">
+                        <span class="transport-count">{{ mode.value }} trips</span>
+                        <span class="transport-distance">{{ formatDistance(analysis.distanceByMode[mode.key] || 0) }}
+                            km</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Suggestions -->
+        <div class="suggestions-section mt-4 fade-in">
+            <h2>🎯 Top Recommendations</h2>
+            <div class="suggestions-list">
+                <div class="suggestion-card glass-card" *ngFor="let suggestion of getTopSuggestions()">
+                    <div class="suggestion-header">
+                        <span class="badge" [ngClass]="getImpactBadgeClass(suggestion.impactLevel)">
+                            {{ suggestion.impactLevel }} Impact
+                        </span>
+                    </div>
+                    <h3>{{ suggestion.title }}</h3>
+                    <p>{{ suggestion.description }}</p>
+                    <div class="suggestion-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">🌱</span>
+                            <span class="metric-value">-{{ formatCO2(suggestion.co2SavingsKg) }} kg CO2</span>
+                        </div>
+                        <div class="metric" *ngIf="suggestion.costSavingsEur > 0">
+                            <span class="metric-icon">💰</span>
+                            <span class="metric-value">-€{{ formatCost(suggestion.costSavingsEur) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading your analysis...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="error && !isLoading">
+    <p>{{ error }}</p>
+</div>

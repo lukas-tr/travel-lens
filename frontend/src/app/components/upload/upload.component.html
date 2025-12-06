@@ -1,0 +1,71 @@
+<div class="upload-container">
+  <div class="container">
+    <div class="upload-content fade-in">
+      <div class="header text-center">
+        <h1>🌍 TravelLens</h1>
+        <p class="subtitle">Analyze your travel behavior and discover eco-friendly alternatives</p>
+      </div>
+
+      <div class="upload-card glass-card">
+        <label 
+          class="file-upload-label"
+          [class.drag-over]="isDragging"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+        >
+          <input 
+            type="file" 
+            accept=".json"
+            (change)="onFileSelected($event)"
+            [disabled]="isUploading"
+          />
+          
+          <div class="upload-icon" *ngIf="!isUploading">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+
+          <div class="upload-text" *ngIf="!isUploading">
+            <h3>Drop your Timeline JSON here</h3>
+            <p>or click to browse</p>
+            <span class="file-hint">Supports Google Maps Timeline exports</span>
+          </div>
+
+          <div class="uploading-state" *ngIf="isUploading">
+            <div class="spinner"></div>
+            <h3>Processing your data...</h3>
+            <div class="progress-bar mt-2">
+              <div class="progress-bar-fill" [style.width.%]="uploadProgress"></div>
+            </div>
+            <p class="mt-1">{{ uploadProgress }}%</p>
+          </div>
+        </label>
+
+        <div class="error-message" *ngIf="errorMessage">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <div class="info-section mt-4">
+        <h3>How to export your Google Maps Timeline:</h3>
+        <ol class="export-steps">
+          <li>Open Google Maps on your mobile device</li>
+          <li>Tap your profile picture → Your Timeline</li>
+          <li>Tap the three dots (⋮) → Settings and privacy</li>
+          <li>Scroll down and tap "Export Timeline data"</li>
+          <li>Select the time range and export as JSON</li>
+          <li>Upload the exported file here</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
