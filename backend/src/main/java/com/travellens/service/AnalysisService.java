@@ -45,7 +45,7 @@ public class AnalysisService {
             TransportMode.ON_BICYCLE, 15.0,
             TransportMode.IN_VEHICLE, 50.0,
             TransportMode.IN_ROAD_VEHICLE, 50.0,
-            TransportMode.IN_PASSENGER_VEHICLE, 25.0,
+            TransportMode.IN_PASSENGER_VEHICLE, 20.0,
             TransportMode.IN_RAIL_VEHICLE, 60.0
     );
 

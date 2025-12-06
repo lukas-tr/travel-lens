@@ -158,13 +158,18 @@ public class SuggestionService {
 
     private String generateRoute(Trip trip) {
         if (trip.getStartLocation() != null && trip.getEndLocation() != null) {
-            return String.format("%.4f,%.4f → %.4f,%.4f",
-                    trip.getStartLocation().getLatitude(),
-                    trip.getStartLocation().getLongitude(),
-                    trip.getEndLocation().getLatitude(),
-                    trip.getEndLocation().getLongitude());
+            double startLat = trip.getStartLocation().getLatitude();
+            double startLon = trip.getStartLocation().getLongitude();
+            double endLat = trip.getEndLocation().getLatitude();
+            double endLon = trip.getEndLocation().getLongitude();
+            
+            // Check if coordinates are valid (not zero)
+            if (startLat != 0.0 && startLon != 0.0 && endLat != 0.0 && endLon != 0.0) {
+                return String.format("%.4f,%.4f → %.4f,%.4f", startLat, startLon, endLat, endLon);
+            }
         }
-        return "Route information unavailable";
+        // Fallback to distance if coordinates are not available
+        return String.format("%.1f km trip", trip.getDistanceKm());
     }
 
     private String formatTransportMode(TransportMode mode) {
